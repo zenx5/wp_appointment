@@ -2,11 +2,15 @@
 
 class WP_Appointment
 {
-    function active()
+    public static function active()
     {
     }
 
-    function deactive()
+    public static function deactive()
+    {
+    }
+
+    public static function init()
     {
     }
 }
