@@ -26,5 +26,10 @@ var app = new Vue({
             ],
             tab:1
         }
+    },
+    methods:{
+        async getData(){
+            
+        }
     }
 })
