@@ -73,10 +73,20 @@ class WP_Appointment
         <div id="app" data-app>
             <v-row>
                 <v-col>
-                    <v-select label="Especialidad" :items="especialidades"></v-select>
+                    <v-select 
+                        label="Especialidad" 
+                        v-model="selectedSpeciality"
+                        :items="getEspecialidades"
+                    >
+                    </v-select>
                 </v-col>
                 <v-col>
-                    <v-select label="Doctor" :items="doctores"></v-select>
+                    <v-select 
+                        label="Doctor"
+                        v-model="selectedDoctor"
+                        :items="getDoctores | filterDoctors(selectedSpeciality)"
+                    >
+                    </v-select>
                 </v-col>
             </v-row>
             <v-row>
