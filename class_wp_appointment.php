@@ -47,8 +47,20 @@ class WP_Appointment
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
         <div id="app">
-            <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30">
-            </v-calendar>
+            <v-row>
+                <v-col>
+                    <v-select label="Especialidad" :items="especialidades"></v-select>
+                </v-col>
+                <v-col>
+                    <v-select label="Doctor" :items="doctores"></v-select>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col>
+                    <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30">
+                    </v-calendar>
+                </v-col>
+            </v-row>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>

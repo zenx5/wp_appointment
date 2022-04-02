@@ -3,6 +3,8 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data(){
         return {
+            especialidades:['neonatologo', 'internista'],
+            doctores:['Javier Martinez', 'Octavio Martinez'],
             name: "moises",
             type: 'month',
             types: ['month', 'week', 'day', '4day'],
