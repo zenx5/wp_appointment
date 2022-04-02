@@ -26,7 +26,7 @@ class WP_Appointment
 
     public static function ajax_url()
     {
-        //wp_enqueue_script('ajax-calendar', '/wp-content/plugins/wp_appointment/app.js');
+        wp_enqueue_script('ajax-calendar', '/wp-content/plugins/wp_appointment/app.js');
         wp_localize_script('ajax-calendar', 'ajax_object_calendar', array('ajax_url' => self::get_dominio() . '/wp-content/plugins/wp_appointment/ajax.php'));
     }
 
