@@ -26,9 +26,18 @@ class WP_Appointment
 
     public static function ajax_data()
     {
-        return new WP_Query(array(
+        $data = [];
+        $appointments = new WP_Query(array(
             "post_type" => "appointment"
         ));
+        foreach ($appointments->posts as $post) {
+            $data[] = [
+                "ID" => $post->ID,
+                "name" => $post->post_title,
+                "meta" => get_post_meta($post->ID)
+            ];
+        }
+        return $data;
     }
 
     public static function insert_in_head()
