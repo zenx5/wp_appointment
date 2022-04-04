@@ -46,6 +46,19 @@ class WP_Appointment
         return $data;
     }
 
+    public static function create_menu()
+    {
+        add_menu_page(
+            'Admin Appointements',
+            'Admin Appointements',
+            'manage_options',
+            'wp_appointment/admin/main.php',
+            null,
+            'dashicons-admin-generic',
+            5
+        );
+    }
+
     public static function insert_in_head()
     {
         ob_start();
@@ -73,19 +86,11 @@ class WP_Appointment
         <div id="app" data-app>
             <v-row>
                 <v-col>
-                    <v-select 
-                        label="Especialidad" 
-                        v-model="selectedSpeciality"
-                        :items="getEspecialidades"
-                    >
+                    <v-select label="Especialidad" v-model="selectedSpeciality" :items="getEspecialidades">
                     </v-select>
                 </v-col>
                 <v-col>
-                    <v-select 
-                        label="Doctor"
-                        v-model="selectedDoctor"
-                        :items="getDoctores | filterDoctors(selectedSpeciality)"
-                    >
+                    <v-select label="Doctor" v-model="selectedDoctor" :items="getDoctores | filterDoctors(selectedSpeciality)">
                     </v-select>
                 </v-col>
             </v-row>
