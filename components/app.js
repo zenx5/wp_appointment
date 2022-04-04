@@ -34,6 +34,7 @@ var app = new Vue({
     },
     methods:{
         async getData( ) {
+            
             this.data = {
                 doctors: this.getDoctors( ),
                 specialities: this.getSpecialities( ),

@@ -30,11 +30,11 @@ class WP_Appointment
         wp_localize_script('ajax-calendar', 'ajax_object_calendar', array('ajax_url' => self::get_dominio() . '/wp-content/plugins/wp_appointment/ajax.php'));
     }
 
-    public static function ajax_data()
+    public static function ajax_data($type)
     {
         $data = [];
         $appointments = new WP_Query(array(
-            "post_type" => "appointment"
+            "post_type" => $type
         ));
         foreach ($appointments->posts as $post) {
             $data[] = [

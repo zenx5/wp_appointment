@@ -1,5 +1,5 @@
 <?php
 
-die(array(
+echo json_encode(array(
     "name" => $_GET['name']
 ));
