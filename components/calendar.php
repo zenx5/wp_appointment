@@ -18,11 +18,11 @@
 <div id="app" data-app>
     <v-row>
         <v-col>
-            <v-select label="Especialidad" v-model="selectedSpeciality" :items="getEspecialidades">
+            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades" >
             </v-select>
         </v-col>
         <v-col>
-            <v-select label="Doctor" v-model="selectedDoctor" :items="getDoctores | filterDoctors">
+            <v-select label="Doctor" v-model="selectedDoctor" item-text="name" item-value="ID"  :items="doctores | filterDoctors(this.getSpecialityId(selectedSpeciality))">
             </v-select>
         </v-col>
     </v-row>

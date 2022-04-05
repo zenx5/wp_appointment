@@ -34,35 +34,26 @@ var app = new Vue({
     },
     methods:{
         async getData( ) {
-            // fetch('http://localhost/wpTrader/wp-content/plugins/wp_appointment/ajax.php')
-            //     .then( response => {
-            //         window.ss = console.log(response)
-            //         return response.json( ) 
-            //     })
-            //     .then( response => {
-            //         console.log(response)
-            //     })
+
             console.log(datas)
-            this.data = {
-                doctors: this.getDoctors( ),
-                specialities: this.getSpecialities( ),
-            };
-            this.especialidades = this.getSpecialities( );
-            this.getEspecialidades = this.data.specialities;
-            this.doctores = this.getDoctors( );
-            this.getDoctores = this.data.doctors
-            console.log(this.getDoctores)
-            console.log(this.getEspecialidades)
+            this.especialidades = datas.specialities;
+            this.doctores = datas.subjects;
+            console.log(this.doctores)
+            console.log(this.especialidades)
+        },
+        getSpecialityId( specialityName ) {
+            if ( specialityName == 'todas' )
+                return 0;
+            let data = datas.specialities.filter( data => {
+                return data.meta.nombre == specialityName
+            })[0]
+            return data.ID
         },
         getSpecialities( ) {
-            return datas.specialities.map( data => {
-                return `${data.meta.nombre[0]}`
-            })
+            return datas.specialities
         },
         getDoctors( ) {
-            return datas.subjects.map( data => {
-                return `${data.meta.nombre[0]} ${data.meta.apellido[0]}`
-            })
+            return datas.subjects
         },
         onChangeDoctor( value ) {
             
@@ -73,10 +64,11 @@ var app = new Vue({
     },
     filters: {
         filterDoctors( _array, selected ) {
-            console.log(_array)
-            console.log(selected)
-            return _array.map( element => {
-
+            console.log(_array, selected)
+            if ( selected == 0 )
+                return _array; 
+            return _array.filter( element => {
+                return element
             })
         },
         filterSpecialities( _array, value,b,c,d,e ) {
@@ -86,7 +78,7 @@ var app = new Vue({
                 return true;
         },
     },
-    created( ) {
+    mounted( ) {
         // setTimeout( _ => {
             this.getData( );
 
