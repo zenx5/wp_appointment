@@ -1,8 +1,19 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<script>
+    var datas = <?php 
+            $subjects = WP_Appointment::ajax_data('subject');
+            $specialities = WP_Appointment::ajax_data('speciality');
+            $datas = array(
+                'subjects' => $subjects,
+                'specialities' => $specialities
+            );
+            echo json_encode($datas);
+        ?>
+</script>
 <code>
-    <?= json_encode(self::ajax_data('appointments')) ?>
+    <?= json_encode(WP_Appointment::ajax_data('subject')) ?>
 </code>
 <div id="app" data-app>
     <v-row>
@@ -11,7 +22,7 @@
             </v-select>
         </v-col>
         <v-col>
-            <v-select label="Doctor" v-model="selectedDoctor" :items="getDoctores || filterDoctors(selectedSpeciality)">
+            <v-select label="Doctor" v-model="selectedDoctor" :items="getDoctores | filterDoctors">
             </v-select>
         </v-col>
     </v-row>

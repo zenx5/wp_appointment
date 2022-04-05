@@ -34,50 +34,35 @@ var app = new Vue({
     },
     methods:{
         async getData( ) {
-            
+            // fetch('http://localhost/wpTrader/wp-content/plugins/wp_appointment/ajax.php')
+            //     .then( response => {
+            //         window.ss = console.log(response)
+            //         return response.json( ) 
+            //     })
+            //     .then( response => {
+            //         console.log(response)
+            //     })
+            console.log(datas)
             this.data = {
                 doctors: this.getDoctors( ),
                 specialities: this.getSpecialities( ),
             };
             this.especialidades = this.getSpecialities( );
-            this.getEspecialidades = this.data.specialities.map( element => element.name );
+            this.getEspecialidades = this.data.specialities;
             this.doctores = this.getDoctors( );
-            this.getDoctores = this.data.doctors.map( element => element.name )
+            this.getDoctores = this.data.doctors
             console.log(this.getDoctores)
             console.log(this.getEspecialidades)
         },
         getSpecialities( ) {
-            return [
-                {
-                    id: 1,
-                    name: 'neonatologo',
-                    description: ''
-                },
-                {
-                    id: 2,
-                    name: 'internista',
-                    description: ''
-                }
-            ]
+            return datas.specialities.map( data => {
+                return `${data.meta.nombre[0]}`
+            })
         },
         getDoctors( ) {
-            return [
-                {
-                    name: 'moises',
-                    especialities: [1],
-                    days: ['sunday'],
-                },
-                {
-                    name: 'javier',
-                    especialities: [1],
-                    days: ['saturday'],
-                },
-                {
-                    name: 'octavio',
-                    especialities: [2],
-                    days: ['monday', 'freeday'],
-                }
-            ]
+            return datas.subjects.map( data => {
+                return `${data.meta.nombre[0]} ${data.meta.apellido[0]}`
+            })
         },
         onChangeDoctor( value ) {
             
@@ -87,9 +72,12 @@ var app = new Vue({
         }
     },
     filters: {
-        filterDoctors( _array,a,b ) {
-            console.log("filter",_array,this.selectedSpeciality) 
-            return true
+        filterDoctors( _array, selected ) {
+            console.log(_array)
+            console.log(selected)
+            return _array.map( element => {
+
+            })
         },
         filterSpecialities( _array, value,b,c,d,e ) {
             console.log(_array)
@@ -99,6 +87,9 @@ var app = new Vue({
         },
     },
     created( ) {
-        this.getData( );
+        // setTimeout( _ => {
+            this.getData( );
+
+        // }, 1000)
     }
 })
