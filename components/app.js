@@ -64,24 +64,17 @@ var app = new Vue({
     },
     filters: {
         filterDoctors( _array, selected ) {
-            console.log(_array, selected)
-            if ( selected == 0 )
-                return _array; 
+            if ( !selected  ) return _array; 
             return _array.filter( element => {
-                return element
+                return element.meta.specialities.indexOf(''+selected)!=-1
             })
         },
-        filterSpecialities( _array, value,b,c,d,e ) {
-            console.log(_array)
-            console.log(value,b,c,d)
-            if ( !this.selectedDoctor || this.selectedDoctor.specialities.indexOf( value ) != -1 )
-                return true;
-        },
+        
     },
-    mounted( ) {
-        // setTimeout( _ => {
+    created( ) {
+        
             this.getData( );
 
-        // }, 1000)
+        
     }
 })

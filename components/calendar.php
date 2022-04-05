@@ -2,27 +2,26 @@
 <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 <script>
-    var datas = <?php 
-            $subjects = WP_Appointment::ajax_data('subject');
-            $specialities = WP_Appointment::ajax_data('speciality');
-            $datas = array(
-                'subjects' => $subjects,
-                'specialities' => $specialities
-            );
-            echo json_encode($datas);
-        ?>
+    var datas = <?php
+                $subjects = WP_Appointment::ajax_data('subject');
+                $specialities = WP_Appointment::ajax_data('speciality');
+                $datas = array(
+                    'subjects' => $subjects,
+                    'specialities' => $specialities
+                );
+                echo json_encode($datas);
+                ?>
 </script>
-<code>
-    <?= json_encode(WP_Appointment::ajax_data('subject')) ?>
-</code>
+
 <div id="app" data-app>
     <v-row>
         <v-col>
-            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades" >
+            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades">
             </v-select>
         </v-col>
         <v-col>
-            <v-select label="Doctor" v-model="selectedDoctor" item-text="name" item-value="ID"  :items="doctores | filterDoctors(this.getSpecialityId(selectedSpeciality))">
+            <v-select label="Doctor" v-model="selectedDoctor" item-text="name" item-value="ID" :items="doctores | filterDoctors(selectedSpeciality)">
+
             </v-select>
         </v-col>
     </v-row>
