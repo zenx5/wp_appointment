@@ -55,6 +55,14 @@
             </v-calendar>
         </v-col>
     </v-row>
+    <v-row>
+        <v-col>
+            <div id="content-list"></div>
+        </v-col>
+    </v-row>
+    <!-- <v-row>
+        <v-col></v-col>
+    </v-row> -->
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
