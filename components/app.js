@@ -78,8 +78,8 @@ var app = new Vue({
                   'T18:00:00',
                 ]
                 const now = new Date()
-                const start = new Date(year + '-' + month + '-' + day)
-                const end = new Date(year + '-' + month + '-' + day)
+                const start = new Date(year + '-' + month + '-' + day + ' 10:20')
+                const end = new Date(year + '-' + month + '-' + day + ' 20:40')
                 const event = {
                   id: k,
                   name: 'Appointment',
@@ -111,9 +111,22 @@ var app = new Vue({
                 year,
             };
             console.log(this.getEvents(day,month, year))
+            window.aa=this.getEvents(day,month, year)
             this.currentEvent = this.getEvents(day, month, year);
-            if (this.currentEvent.length == 0) {
-                this.events.forEach((event) => (event.style = "event-slot"));
+            let list = document.querySelector('#content-list');
+            list.innerHTML = null
+            console.log(this.currentEvent)
+            if (this.currentEvent.length != 0) {
+                this.currentEvent.forEach( event => {
+                    let div = document.createElement('div');
+                    let starMinute = event.start.getMinutes( ) >= 10 ? event.start.getMinutes( ) : '0'+event.start.getMinutes( )
+                    let endMinute = event.end.getMinutes( ) >= 10 ? event.end.getMinutes( ) : '0'+event.end.getMinutes( )
+                    div.innerText = `de ${event.start.getHours( )}:${starMinute} a ${event.end.getHours( )}:${endMinute}`
+                    console.log(div)
+                    console.log(list)
+                    list.appendChild( div )
+                    // (event.style = "event-slot")
+                });
                 this.schedule = {};
                 this.eventSelected = false;
             }
