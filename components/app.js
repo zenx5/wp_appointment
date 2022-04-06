@@ -55,6 +55,47 @@ var app = new Vue({
         getDoctors( ) {
             return datas.subjects
         },
+        loadEvents(month, year) {
+            let k = 0
+            let events = []
+            for (let i = 1; i <= 31; i++) {
+              const day = i < 10 ? '0' + i : i
+              for (let j = 0; j < 7; j++) {
+                const timestart = [
+                  'T07:00:00',
+                  'T09:00:00',
+                  'T11:00:00',
+                  'T14:00:00',
+                  'T16:00:00',
+                ]
+                const timesend = [
+                  'T09:00:00',
+                  'T11:00:00',
+                  'T13:00:00',
+                  'T16:00:00',
+                  'T18:00:00',
+                ]
+                const now = new Date()
+                const start = new Date(year + '-' + month + '-' + day)
+                const end = new Date(year + '-' + month + '-' + day)
+                const event = {
+                  id: k,
+                  name: 'Appointment',
+                  start: start,
+                  end: end,
+                  style: 'event-slot',
+                  timed: false,
+                }
+                if (start > now) {
+                  events.push(event)
+                }
+                k++
+              }
+            }
+            console.log(events)
+      
+            this.events = events
+        },
         onChangeDoctor( value ) {
             
         },
@@ -68,13 +109,11 @@ var app = new Vue({
             return _array.filter( element => {
                 return element.meta.specialities.indexOf(''+selected)!=-1
             })
-        },
-        
+        }
     },
     created( ) {
-        
-            this.getData( );
-
-        
+        this.getData( );
+        this.loadEvents(04,2022 )
+        console.log(this.events)
     }
 })
