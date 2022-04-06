@@ -96,6 +96,37 @@ var app = new Vue({
       
             this.events = events
         },
+        classDay(day, month, year) {
+            if (this.getEvents(day, month, year).length != 0) {
+                return "event";
+            }
+            return "";
+        },
+        clickDay({ day, month, year }) {
+            this.selected = {
+                day,
+                month,
+                year,
+            };
+            console.log(this.getEvents(day,month, year))
+            this.currentEvent = this.getEvents(day, month, year);
+            if (this.currentEvent.length == 0) {
+                this.events.forEach((event) => (event.style = "event-slot"));
+                this.schedule = {};
+                this.eventSelected = false;
+            }
+        },
+        getEvents(day, month, year) {
+            return this.events.filter((event) => {
+                if (
+                    event.start.getDate() == day &&
+                    event.start.getMonth() + 1 == month &&
+                    event.start.getFullYear() == year
+                ) {
+                    return event;
+                }
+            });
+        },
         onChangeDoctor( value ) {
             
         },
@@ -109,7 +140,21 @@ var app = new Vue({
             return _array.filter( element => {
                 return element.meta.specialities.indexOf(''+selected)!=-1
             })
+        },
+        filterSpecialities(_array){
+            console.log('filterSpecialities')
+            let selected = _array.map( element => {
+                console.log(element)
+                if( element.meta.sub ){
+                    return element.ID
+                }
+            })
+            console.log(selected)
+            return _array.filter( element => {
+                return selected.indexOf(element)
+            })
         }
+        
     },
     created( ) {
         this.getData( );

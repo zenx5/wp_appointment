@@ -12,11 +12,18 @@
                 echo json_encode($datas);
                 ?>
 </script>
+<style>
+.day.event {
+    cursor: pointer;
+    background-color: #e9f6ff;
+    color: #3891f8;
+}
+</style>
 
 <div id="app" data-app>
     <v-row>
         <v-col>
-            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades">
+            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades | filterSpecialities">
             </v-select>
         </v-col>
         <v-col>
@@ -27,7 +34,24 @@
     </v-row>
     <v-row>
         <v-col>
-            <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30">
+            <v-calendar 
+                ref="calendar" 
+                v-model="value" 
+                :weekdays="weekday" 
+                :type="type" 
+                @click:day="clickDay"
+               
+            >
+                <template v-slot:day-label="{ day, month, year }">
+                    <div
+                        :class="
+                            'day ' +
+                            classDay(day, month, year)
+                        "
+                    >
+                        <label class="label">{{ day }}</label>
+                    </div>
+                </template>
             </v-calendar>
         </v-col>
     </v-row>
