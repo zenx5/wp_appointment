@@ -49,11 +49,13 @@ var app = new Vue({
             })[0]
             return data.ID
         },
-        getSpecialities( ) {
-            return datas.specialities
-        },
-        getDoctors( ) {
-            return datas.subjects
+        hasChildren( ) {
+            if(!this.selectedSpeciality) return;
+            return this.especialidades.filter( element => {
+                if( element.ID == this.selectedSpeciality ){
+                    return element.meta.sub
+                }
+            }).length > 0
         },
         onChangeDoctor( value ) {
             
@@ -69,7 +71,7 @@ var app = new Vue({
                 return element.meta.specialities.indexOf(''+selected)!=-1
             })
         },
-        filterSpecialities(_array){
+        filterSpecialities(_array, A = false){
             let parents = _array.map( element => {
                 console.log(element)
                 if( element.meta.sub ){
@@ -78,7 +80,9 @@ var app = new Vue({
                 return -1
             })
             return _array.filter( element => {
-                if( parents.indexOf(element.ID) == -1 ){
+                let B = parents.indexOf(element.ID) == -1
+
+                if( !A&&B || A&&!B   ){
                     return element
                 }                
             })

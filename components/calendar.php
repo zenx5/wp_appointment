@@ -19,6 +19,9 @@
             <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades | filterSpecialities">
             </v-select>
         </v-col>
+        <v-col v-show="hasChildren()">
+            <v-select label="Sub Especialidad" item-text="name" item-value="ID" :items="especialidades | filterSpecialities(true)"></v-select>
+        </v-col>
         <v-col>
             <v-select label="Doctor" v-model="selectedDoctor" item-text="name" item-value="ID" :items="doctores | filterDoctors(selectedSpeciality)">
 
