@@ -69,6 +69,19 @@ var app = new Vue({
                 return element.meta.specialities.indexOf(''+selected)!=-1
             })
         },
+        filterSpecialities(_array){
+            console.log('filterSpecialities')
+            let selected = _array.map( element => {
+                console.log(element)
+                if( element.meta.sub ){
+                    return element.ID
+                }
+            })
+            console.log(selected)
+            return _array.filter( element => {
+                return selected.indexOf(element)
+            })
+        }
         
     },
     created( ) {

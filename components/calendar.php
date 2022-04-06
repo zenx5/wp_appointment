@@ -16,7 +16,7 @@
 <div id="app" data-app>
     <v-row>
         <v-col>
-            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades">
+            <v-select label="Especialidad" v-model="selectedSpeciality" item-text="name" item-value="ID" :items="especialidades | filterSpecialities">
             </v-select>
         </v-col>
         <v-col>
