@@ -142,16 +142,17 @@ var app = new Vue({
             })
         },
         filterSpecialities(_array){
-            console.log('filterSpecialities')
-            let selected = _array.map( element => {
+            let parents = _array.map( element => {
                 console.log(element)
                 if( element.meta.sub ){
-                    return element.ID
+                    return parseInt( element.meta.sub)
                 }
+                return -1
             })
-            console.log(selected)
             return _array.filter( element => {
-                return selected.indexOf(element)
+                if( parents.indexOf(element.ID) == -1 ){
+                    return element
+                }                
             })
         }
         
