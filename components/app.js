@@ -65,43 +65,59 @@ var app = new Vue({
             let k = 0
             let events = []
             let now = new Date( );
-            for (let i = 1; i <= 31; i++) {
-              const day = i < 10 ? '0' + i : i
-              for (let j = 0; j < 7; j++) {
-                const timestart = [
-                  'T07:00:00',
-                  'T09:00:00',
-                  'T11:00:00',
-                  'T14:00:00',
-                  'T16:00:00',
-                ]
-                const timesend = [
-                  'T09:00:00',
-                  'T11:00:00',
-                  'T13:00:00',
-                  'T16:00:00',
-                  'T18:00:00',
-                ]
-                const start = new Date(year + '-' + month + '-' + day + ' 10:20')
-                const end = new Date(year + '-' + month + '-' + day + ' 20:40')
-                const event = {
-                  id: k,
-                  name: 'Appointment',
-                  start: start,
-                  end: end,
-                  style: 'event-slot',
-                  timed: false,
-                }
-                if (start > now) {
-                  events.push(event)
-                }
-                k++
-              }
-            }
+            // for (let i = 1; i <= 31; i++) {
+            //   const day = i < 10 ? '0' + i : i
+            //   for (let j = 0; j < 7; j++) {
+            //     const timestart = [
+            //       'T07:00:00',
+            //       'T09:00:00',
+            //       'T11:00:00',
+            //       'T14:00:00',
+            //       'T16:00:00',
+            //     ]
+            //     const timesend = [
+            //       'T09:00:00',
+            //       'T11:00:00',
+            //       'T13:00:00',
+            //       'T16:00:00',
+            //       'T18:00:00',
+            //     ]
+            //     const start = new Date(year + '-' + month + '-' + day + ' 10:20')
+            //     const end = new Date(year + '-' + month + '-' + day + ' 20:40')
+            //     const event = {
+            //       id: k,
+            //       name: 'Appointment',
+            //       start: start,
+            //       end: end,
+            //       style: 'event-slot',
+            //       timed: false,
+            //     }
+            //     if (start > now) {
+            //       events.push(event)
+            //     }
+            //     k++
+            //   }
+            // }
             datas.appointments.forEach( (data, index) => {
-                
+                data.meta.dia_de_la_semana.forEach( day => {
+                    this.getDays( day ).forEach( date => {
+                        console.log(`${now.getMonth()}-${date}-${now.getFullYear()} ${data.meta.hora_inicio[0]}`)
+                        let start = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_inicio[0]}`)
+                        let end = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_final[0]}`)
+                        const event = {
+                            // id: k,
+                            name: 'Appointment',
+                            start: start,
+                            end: end,
+                            style: 'event-slot',
+                            timed: false,
+                        }
+                        events.push( event )
+                    })
+                    
+                })
             })
-            console.log(events)
+            console.log(datas.appointments)
       
             this.events = events
         },
@@ -115,22 +131,24 @@ var app = new Vue({
             }
             return "";
         },
-        getDays( weekName ) {
+        getDays( weekDay ) {
             let days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
-            let weekDay = days.indexOf( weekName );
+            // let weekDay = wee;
             let now = new Date( );
             let date = now.getDate( );
             let month = now.getMonth( )+1;
             let year = now.getFullYear( );
-            // // date = date >= 10 ? ''+date : '0'+date;
-            // // month = month >= 10 ? ''+month : '0'+month;
-            // let d = new Date(`${month}-01-${year}`);
             let day = now.getDay( );
-            let dif = weekDay - day;
-            let d = new Date(`${month}-${date+dif}-${year}`);
-            let arr = [d.getDate()];
-            let flag = true
-            // for( let i =  )
+            let dif = weekDay - day >=0 ? weekDay-day : weekDay-day+7;
+            let arr = [];
+            if ( weekDay == -1 )
+                return [];
+            for( let i = 0; i < 5; i++ ) {
+                let d = new Date(`${month}-${date+dif+7*i}-${year}`);
+                if ( d.getDate( ) ) {
+                    arr.push( d.getDate() );
+                }
+            }
             return arr;
         },
         classDay(day, month, year) {
@@ -240,6 +258,5 @@ var app = new Vue({
     created( ) {
         this.getData( );
         this.loadEvents(04,2022 )
-        console.log(this.events)
     }
 })
