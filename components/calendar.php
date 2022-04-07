@@ -5,18 +5,96 @@
     var datas = <?php
                 $subjects = WP_Appointment::ajax_data('subject');
                 $specialities = WP_Appointment::ajax_data('speciality');
+                $appointments = WP_Appointment::ajax_data('appointments');
                 $datas = array(
                     'subjects' => $subjects,
-                    'specialities' => $specialities
+                    'specialities' => $specialities,
+                    'appointments' => $appointments
                 );
                 echo json_encode($datas);
                 ?>
 </script>
-<style>
+<style lang="css">
+.bl-2 {
+  border-left: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.status {
+  color: #313949;
+}
+
+.status .activityID {
+  color: #5b8a5a;
+}
+
+.thetitle {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #3891f8;
+}
+.event-slot {
+  cursor: pointer;
+  padding: 5px;
+  color: #3891f8;
+  border: 1px solid #3891f8;
+  margin: 5px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.event-slot.active {
+  background-color: #3891f8;
+  color: white;
+  font-weight: bold;
+}
+
+.event-slot.deactive {
+  color: lightgray;
+  border: 1px solid lightgray;
+}
+
+.v-calendar-weekly__day.v-outside {
+  opacity: 0;
+}
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 50%;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
 .day.event {
-    cursor: pointer;
-    background-color: #e9f6ff;
-    color: #3891f8;
+  cursor: pointer;
+  background-color: #e9f6ff;
+  color: #3891f8;
+}
+.day.event.active {
+  cursor: pointer;
+  background-color: #3891f8;
+  color: white;
+  font-weight: bold;
+}
+
+.v-calendar-weekly__day {
+  border: none !important;
+}
+
+.theme--light.v-calendar-weekly {
+  border: none;
+}
+
+.v-calendar-weekly__head .v-calendar-weekly__head-weekday {
+  padding: 5px;
+  font-weight: bold;
+  border: none !important;
+  color: black !important;
+  background-color: white !important;
+  font-size: 10px;
 }
 </style>
 
@@ -59,8 +137,15 @@
         </v-col>
     </v-row>
     <v-row>
-        <v-col>
-            <div id="content-list"></div>
+        <v-col cols="4">
+            <div
+                v-for="(item, ind) in currentEvent"
+                :key="'es' + ind"
+                :class="item.style"
+                @click="clickEvent(item.id)"
+            >
+                {{ item.start | hour }}
+            </div>
         </v-col>
     </v-row>
     <!-- <v-row>

@@ -3,12 +3,14 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data(){
         return {
+            currentEvent: [],
             data: { },
             especialidades:[],
             getEspecialidades:[],
             selectedSpeciality: null,
             doctores:[],
             getDoctores: [],
+            citas: [],
             selectedDoctor: null,
             name: "moises",
             type: 'month',
@@ -38,8 +40,10 @@ var app = new Vue({
             console.log(datas)
             this.especialidades = datas.specialities;
             this.doctores = datas.subjects;
+            this.citas = datas.appointments;
             console.log(this.doctores)
             console.log(this.especialidades)
+            console.log(this.citas)
         },
         getSpecialityId( specialityName ) {
             if ( specialityName == 'todas' )
@@ -60,6 +64,7 @@ var app = new Vue({
         loadEvents(month, year) {
             let k = 0
             let events = []
+            let now = new Date( );
             for (let i = 1; i <= 31; i++) {
               const day = i < 10 ? '0' + i : i
               for (let j = 0; j < 7; j++) {
@@ -77,7 +82,6 @@ var app = new Vue({
                   'T16:00:00',
                   'T18:00:00',
                 ]
-                const now = new Date()
                 const start = new Date(year + '-' + month + '-' + day + ' 10:20')
                 const end = new Date(year + '-' + month + '-' + day + ' 20:40')
                 const event = {
@@ -94,15 +98,56 @@ var app = new Vue({
                 k++
               }
             }
+            datas.appointments.forEach( (data, index) => {
+                
+            })
             console.log(events)
       
             this.events = events
+        },
+        active(day, month, year) {
+            if (
+                this.selected.day == day &&
+                this.selected.month == month &&
+                this.selected.year == year
+            ) {
+                return "active";
+            }
+            return "";
+        },
+        getDays( weekName ) {
+            let days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            let weekDay = days.indexOf( weekName );
+            let now = new Date( );
+            let date = now.getDate( );
+            let month = now.getMonth( )+1;
+            let year = now.getFullYear( );
+            // // date = date >= 10 ? ''+date : '0'+date;
+            // // month = month >= 10 ? ''+month : '0'+month;
+            // let d = new Date(`${month}-01-${year}`);
+            let day = now.getDay( );
+            let dif = weekDay - day;
+            let d = new Date(`${month}-${date+dif}-${year}`);
+            let arr = [d.getDate()];
+            let flag = true
+            // for( let i =  )
+            return arr;
         },
         classDay(day, month, year) {
             if (this.getEvents(day, month, year).length != 0) {
                 return "event";
             }
             return "";
+        },
+        clickEvent(index) {
+            this.events.forEach((event) => {
+                event.style = "event-slot deactive";
+            });
+            let event = this.events.find((event) => event.id == index);
+            event.style = "event-slot active";
+            console.log(event);
+            this.schedule = event;
+            this.eventSelected = true;
         },
         clickDay({ day, month, year }) {
             this.selected = {
@@ -114,17 +159,21 @@ var app = new Vue({
             window.aa=this.getEvents(day,month, year)
             this.currentEvent = this.getEvents(day, month, year);
             let list = document.querySelector('#content-list');
-            list.innerHTML = null
+            // list.innerHTML = null
             console.log(this.currentEvent)
             if (this.currentEvent.length != 0) {
                 this.currentEvent.forEach( event => {
                     let div = document.createElement('div');
                     let starMinute = event.start.getMinutes( ) >= 10 ? event.start.getMinutes( ) : '0'+event.start.getMinutes( )
                     let endMinute = event.end.getMinutes( ) >= 10 ? event.end.getMinutes( ) : '0'+event.end.getMinutes( )
-                    div.innerText = `de ${event.start.getHours( )}:${starMinute} a ${event.end.getHours( )}:${endMinute}`
+                    // div.classList.add('appointment-item');
+                    // div.onclick = event => {
+                    //     console.log(22)
+                    // };
+                    // div.innerText = `de ${event.start.getHours( )}:${starMinute} a ${event.end.getHours( )}:${endMinute}`
                     console.log(div)
                     console.log(list)
-                    list.appendChild( div )
+                    // list.appendChild( div )
                     // (event.style = "event-slot")
                 });
                 this.schedule = {};
@@ -171,7 +220,21 @@ var app = new Vue({
                     return element
                 }                
             })
-        }
+        },
+        hour(currentDate) {
+            let meridian = currentDate.getHours() > 12 ? "PM" : "AM";
+            let hour =
+              currentDate.getHours() > 12
+                ? currentDate.getHours() - 12
+                : currentDate.getHours();
+            hour = hour < 10 ? "0" + hour : hour;
+            let minutes =
+              currentDate.getMinutes() < 10
+                ? "0" + currentDate.getMinutes()
+                : currentDate.getMinutes();
+      
+            return hour + ":" + minutes + " " + meridian;
+        },
         
     },
     created( ) {
