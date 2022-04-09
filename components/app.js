@@ -3,6 +3,9 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data(){
         return {
+            selects:[],
+            schedule:{},
+            eventSelected: false,
             currentEvent: [],
             data: { },
             especialidades:[],
@@ -111,10 +114,12 @@ var app = new Vue({
             this.events = events
         },
         active(day, month, year) {
+            console.log('active',day, month, year)
+            console.log('active',this.schedule)
             if (
-                this.selected.day == day &&
-                this.selected.month == month &&
-                this.selected.year == year
+                this.schedule.day == day &&
+                this.schedule.month == month &&
+                this.schedule.year == year
             ) {
                 return "active";
             }
@@ -153,7 +158,7 @@ var app = new Vue({
             let event = this.events.find((event) => event.id == index);
             event.style = "event-slot active";
             console.log(event);
-            this.schedule = event;
+            this.selects.push(event)
             this.eventSelected = true;
         },
         clickDay({ day, month, year }) {
@@ -183,9 +188,9 @@ var app = new Vue({
                     // list.appendChild( div )
                     // (event.style = "event-slot")
                 });
-                this.schedule = {};
-                this.eventSelected = false;
+                this.eventSelected = true;
             }
+            this.schedule = {day, month, year};
         },
         getEvents(day, month, year) {
             return this.events.filter((event) => {
