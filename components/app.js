@@ -88,6 +88,8 @@ var app = new Vue({
                 })
             })
             datas.singleAppointments.forEach( data => {
+                console.log( 'data: ', data )
+                if( !data.meta.hora_inicio || !data.meta.hora_final || !data.meta.fecha ) return;
                 let start = new Date(`${data.meta.fecha[0]} ${data.meta.hora_inicio[0]}`)
                 let end = new Date(`${data.meta.fecha[0]} ${data.meta.hora_final[0]}`)
                 const event = {
