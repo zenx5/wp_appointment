@@ -6,10 +6,12 @@
                 $subjects = WP_Appointment::ajax_data('subject');
                 $specialities = WP_Appointment::ajax_data('speciality');
                 $appointments = WP_Appointment::ajax_data('appointments');
+                $single_appointments = WP_Appointment::ajax_data('single_appointments');
                 $datas = array(
                     'subjects' => $subjects,
                     'specialities' => $specialities,
-                    'appointments' => $appointments
+                    'appointments' => $appointments,
+                    'singleAppointments' => $single_appointments
                 );
                 echo json_encode($datas);
                 ?>
@@ -36,20 +38,20 @@
   cursor: pointer;
   padding: 5px;
   color: #3891f8;
-  border: 1px solid #3891f8;
+  /* border: 1px solid #3891f8; */
   margin: 5px;
   text-align: center;
   border-radius: 5px;
 }
 
 .event-slot.active {
-  background-color: #3891f8;
+  /* background-color: #3891f8; */
   color: white;
   font-weight: bold;
 }
 
 .event-slot.deactive {
-  color: lightgray;
+  /* color: lightgray; */
   border: 1px solid lightgray;
 }
 
@@ -137,14 +139,14 @@
         </v-col>
     </v-row>
     <v-row>
-        <v-col cols="4">
+        <v-col>
             <div
                 v-for="(item, ind) in currentEvent"
                 :key="'es' + ind"
                 :class="item.style"
                 @click="clickEvent(item.id)"
             >
-                {{ item.start | hour }}
+                <input type='checkbox' /> De {{item.start | hour}} A {{item.end | hour}}
             </div>
         </v-col>
     </v-row>

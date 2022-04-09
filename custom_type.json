@@ -1,12 +1,12 @@
 {
     "meta": {
         "version": "2.8.10",
-        "build": 1648949024
+        "build": 1649470492
     },
     "pods": [
         {
             "name": "appointments",
-            "id": 22,
+            "id": 136,
             "label": "Appointments",
             "description": "",
             "type": "post_type",
@@ -44,14 +44,14 @@
             "groups": [
                 {
                     "name": "mas_campos",
-                    "id": 23,
+                    "id": 137,
                     "label": "M\u00e1s campos",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
                             "name": "tipo",
-                            "id": 26,
+                            "id": 138,
                             "label": "Tipo",
                             "description": "",
                             "weight": 0,
@@ -81,7 +81,7 @@
                         },
                         {
                             "name": "dia_de_la_semana",
-                            "id": 27,
+                            "id": 139,
                             "label": "D\u00eda de la Semana",
                             "description": "",
                             "weight": 1,
@@ -110,9 +110,9 @@
                             "pick_custom": "0|Seleccione\n1|Lunes\n2|Martes\n3|Mi\u00e9rcoles\n4|Jueves\n5|Viernes\n6|S\u00e1bado\n7|Domingo"
                         },
                         {
-                            "name": "hora",
-                            "id": 25,
-                            "label": "Hora",
+                            "name": "hora_inicio",
+                            "id": 140,
+                            "label": "Hora inicio",
                             "description": "",
                             "weight": 2,
                             "type": "time",
@@ -130,14 +130,32 @@
                             "rest_read": "1"
                         },
                         {
-                            "name": "single_appointment",
-                            "id": 29,
-                            "label": "Single Appointment",
+                            "name": "hora_final",
+                            "id": 166,
+                            "label": "Hora final",
                             "description": "",
                             "weight": 3,
+                            "type": "time",
+                            "sister_id": "-- Select One --",
+                            "required": "0",
+                            "time_type": "12",
+                            "time_format": "h_mma",
+                            "time_format_24": "hh_mm",
+                            "time_allow_empty": "1",
+                            "time_html5": "0",
+                            "roles_allowed": "administrator",
+                            "rest_pick_response": "array",
+                            "rest_pick_depth": "1"
+                        },
+                        {
+                            "name": "single_appointment",
+                            "id": 141,
+                            "label": "Single Appointment",
+                            "description": "",
+                            "weight": 4,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "sinlge_appointments",
+                            "pick_val": "single_appointments",
                             "sister_id": "-- Selecciona uno --",
                             "post_status": "publish",
                             "rest_route": "\/pods\/v1\/fields",
@@ -164,8 +182,8 @@
             ]
         },
         {
-            "name": "sinlge_appointments",
-            "id": 14,
+            "name": "single_appointments",
+            "id": 142,
             "label": "Single-Appointments",
             "description": "",
             "type": "post_type",
@@ -199,14 +217,14 @@
             "groups": [
                 {
                     "name": "mas_campos",
-                    "id": 15,
+                    "id": 143,
                     "label": "M\u00e1s campos",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
                             "name": "fecha",
-                            "id": 16,
+                            "id": 144,
                             "label": "Fecha",
                             "description": "",
                             "weight": 0,
@@ -224,9 +242,9 @@
                             "rest_read": "0"
                         },
                         {
-                            "name": "hora",
-                            "id": 17,
-                            "label": "Hora",
+                            "name": "hora_inicio",
+                            "id": 145,
+                            "label": "Hora inicio",
                             "description": "",
                             "weight": 1,
                             "type": "time",
@@ -242,6 +260,24 @@
                             "rest_pick_response": "array",
                             "rest_pick_depth": "1",
                             "rest_read": "1"
+                        },
+                        {
+                            "name": "hora_final",
+                            "id": 172,
+                            "label": "Hora final",
+                            "description": "",
+                            "weight": 2,
+                            "type": "time",
+                            "sister_id": "-- Select One --",
+                            "required": "1",
+                            "time_type": "12",
+                            "time_format": "h_mma",
+                            "time_format_24": "hh_mm",
+                            "time_allow_empty": "1",
+                            "time_html5": "0",
+                            "roles_allowed": "administrator",
+                            "rest_pick_response": "array",
+                            "rest_pick_depth": "1"
                         }
                     ]
                 }
@@ -249,7 +285,7 @@
         },
         {
             "name": "speciality",
-            "id": 33,
+            "id": 146,
             "label": "Specialities",
             "description": "",
             "type": "post_type",
@@ -260,7 +296,7 @@
             "rest_enable": "1",
             "supports_title": "1",
             "supports_editor": "0",
-            "_migrated_28": "1",
+            "_migrated_28": "0",
             "rest_route": "\/pods\/v1\/pods\/33",
             "required": "0",
             "publicly_queryable": "1",
@@ -282,14 +318,14 @@
             "groups": [
                 {
                     "name": "mas_campos",
-                    "id": 34,
+                    "id": 147,
                     "label": "M\u00e1s campos",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
                             "name": "nombre",
-                            "id": 35,
+                            "id": 148,
                             "label": "Nombre",
                             "description": "",
                             "weight": 0,
@@ -309,7 +345,7 @@
         },
         {
             "name": "subject",
-            "id": 37,
+            "id": 149,
             "label": "Subjects",
             "description": "",
             "type": "post_type",
@@ -338,17 +374,18 @@
             "default_status": "draft",
             "revisions_to_keep_limit": "0",
             "delete_with_user": "1",
+            "required": "0",
             "groups": [
                 {
                     "name": "mas_campos",
-                    "id": 38,
+                    "id": 150,
                     "label": "M\u00e1s campos",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
                             "name": "nombre",
-                            "id": 39,
+                            "id": 151,
                             "label": "Nombre",
                             "description": "",
                             "weight": 0,
@@ -364,7 +401,7 @@
                         },
                         {
                             "name": "apellido",
-                            "id": 40,
+                            "id": 152,
                             "label": "Apellido",
                             "description": "",
                             "weight": 1,
@@ -380,7 +417,7 @@
                         },
                         {
                             "name": "specialities",
-                            "id": 41,
+                            "id": 153,
                             "label": "Specialities",
                             "description": "",
                             "weight": 2,
@@ -391,6 +428,35 @@
                             "post_status": "publish",
                             "rest_route": "\/pods\/v1\/fields",
                             "pick_table": "-- Selecciona uno --",
+                            "required": "0",
+                            "pick_format_type": "multi",
+                            "pick_format_single": "dropdown",
+                            "pick_format_multi": "checkbox",
+                            "pick_display_format_multi": "default",
+                            "pick_display_format_separator": ", ",
+                            "pick_allow_add_new": "1",
+                            "pick_taggable": "0",
+                            "pick_show_icon": "1",
+                            "pick_show_edit_link": "1",
+                            "pick_show_view_link": "1",
+                            "pick_limit": "0",
+                            "pick_user_role": "Administrator",
+                            "roles_allowed": "administrator",
+                            "rest_pick_response": "array",
+                            "rest_pick_depth": "1"
+                        },
+                        {
+                            "name": "appointment",
+                            "id": 176,
+                            "label": "appointment",
+                            "description": "",
+                            "weight": 3,
+                            "type": "pick",
+                            "pick_object": "post_type",
+                            "pick_val": "appointments",
+                            "sister_id": "-- Select One --",
+                            "post_status": "publish",
+                            "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
                             "pick_format_single": "dropdown",

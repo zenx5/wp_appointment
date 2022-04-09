@@ -45,6 +45,9 @@ var app = new Vue({
             console.log(this.especialidades)
             console.log(this.citas)
         },
+        getDoctorById( doctorId ) {
+            return datas.subjects.find( doctor => doctor.ID == doctorId )
+        },
         getSpecialityId( specialityName ) {
             if ( specialityName == 'todas' )
                 return 0;
@@ -65,47 +68,14 @@ var app = new Vue({
             let k = 0
             let events = []
             let now = new Date( );
-            // for (let i = 1; i <= 31; i++) {
-            //   const day = i < 10 ? '0' + i : i
-            //   for (let j = 0; j < 7; j++) {
-            //     const timestart = [
-            //       'T07:00:00',
-            //       'T09:00:00',
-            //       'T11:00:00',
-            //       'T14:00:00',
-            //       'T16:00:00',
-            //     ]
-            //     const timesend = [
-            //       'T09:00:00',
-            //       'T11:00:00',
-            //       'T13:00:00',
-            //       'T16:00:00',
-            //       'T18:00:00',
-            //     ]
-            //     const start = new Date(year + '-' + month + '-' + day + ' 10:20')
-            //     const end = new Date(year + '-' + month + '-' + day + ' 20:40')
-            //     const event = {
-            //       id: k,
-            //       name: 'Appointment',
-            //       start: start,
-            //       end: end,
-            //       style: 'event-slot',
-            //       timed: false,
-            //     }
-            //     if (start > now) {
-            //       events.push(event)
-            //     }
-            //     k++
-            //   }
-            // }
             datas.appointments.forEach( (data, index) => {
                 data.meta.dia_de_la_semana.forEach( day => {
                     this.getDays( day ).forEach( date => {
-                        console.log(`${now.getMonth()}-${date}-${now.getFullYear()} ${data.meta.hora_inicio[0]}`)
                         let start = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_inicio[0]}`)
                         let end = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_final[0]}`)
                         const event = {
-                            // id: k,
+                            id: data.ID,
+                            ID: data.ID,
                             name: 'Appointment',
                             start: start,
                             end: end,
@@ -117,7 +87,24 @@ var app = new Vue({
                     
                 })
             })
+            datas.singleAppointments.forEach( data => {
+                let start = new Date(`${data.meta.fecha[0]} ${data.meta.hora_inicio[0]}`)
+                let end = new Date(`${data.meta.fecha[0]} ${data.meta.hora_final[0]}`)
+                const event = {
+                    id: data.ID,
+                    ID: data.ID,
+                    name: 'Appointment',
+                    start: start,
+                    end: end,
+                    style: 'event-slot',
+                    timed: false,
+                }
+                console.log(event)
+                if ( start > now )
+                    events.push( event );
+            })
             console.log(datas.appointments)
+            console.log(events)
       
             this.events = events
         },
@@ -152,7 +139,7 @@ var app = new Vue({
             return arr;
         },
         classDay(day, month, year) {
-            if (this.getEvents(day, month, year).length != 0) {
+            if (this.getEvents(day, month, year).length != 0 ) {
                 return "event";
             }
             return "";
@@ -201,13 +188,31 @@ var app = new Vue({
         getEvents(day, month, year) {
             return this.events.filter((event) => {
                 if (
+                    this.selectedDoctor &&
                     event.start.getDate() == day &&
                     event.start.getMonth() + 1 == month &&
-                    event.start.getFullYear() == year
+                    event.start.getFullYear() == year &&
+                    this.getDoctorById( this.selectedDoctor ).meta.appointment &&
+                    this.getDoctorById( this.selectedDoctor ).meta.appointment.indexOf( ""+event.ID ) != -1
                 ) {
+                    console.log('etro')
                     return event;
                 }
             });
+        },
+        hour(currentDate) {
+            let meridian = currentDate.getHours() > 12 ? "PM" : "AM";
+            let hour =
+              currentDate.getHours() > 12
+                ? currentDate.getHours() - 12
+                : currentDate.getHours();
+            hour = hour < 10 ? "0" + hour : hour;
+            let minutes =
+              currentDate.getMinutes() < 10
+                ? "0" + currentDate.getMinutes()
+                : currentDate.getMinutes();
+      
+            return hour + ":" + minutes + " " + meridian;
         },
         onChangeDoctor( value ) {
             
