@@ -77,8 +77,8 @@ var app = new Vue({
                         let start = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_inicio[0]}`)
                         let end = new Date(`${now.getMonth()+1}-${date}-${now.getFullYear()} ${data.meta.hora_final[0]}`)
                         const event = {
-                            id: data.ID,
                             ID: data.ID,
+                            markedTime: Date.now(),
                             name: 'Appointment',
                             start: start,
                             end: end,
@@ -114,8 +114,7 @@ var app = new Vue({
             this.events = events
         },
         active(day, month, year) {
-            console.log('active',day, month, year)
-            console.log('active',this.schedule)
+            
             if (
                 this.schedule.day == day &&
                 this.schedule.month == month &&
@@ -151,15 +150,23 @@ var app = new Vue({
             }
             return "";
         },
-        clickEvent(index) {
+        clickEvent(index, add) {
             this.events.forEach((event) => {
                 event.style = "event-slot deactive";
             });
-            let event = this.events.find((event) => event.id == index);
+             let event = this.events.find((event) => event.id == index);
             event.style = "event-slot active";
             console.log(event);
-            this.selects.push(event)
-            this.eventSelected = true;
+            if( add ){
+                if( !this.selects.find(select => select.id == event.id) ){
+                    this.selects.push(event)
+                }
+            }
+            else{
+                this.selects = this.selects.filter(select => select.id != event.id)
+            }
+            event.timed = add;
+            this.eventSelected = add;
         },
         clickDay({ day, month, year }) {
             this.selected = {
@@ -167,29 +174,8 @@ var app = new Vue({
                 month,
                 year,
             };
-            console.log(this.getEvents(day,month, year))
-            window.aa=this.getEvents(day,month, year)
             this.currentEvent = this.getEvents(day, month, year);
-            let list = document.querySelector('#content-list');
-            // list.innerHTML = null
-            console.log(this.currentEvent)
-            if (this.currentEvent.length != 0) {
-                this.currentEvent.forEach( event => {
-                    let div = document.createElement('div');
-                    let starMinute = event.start.getMinutes( ) >= 10 ? event.start.getMinutes( ) : '0'+event.start.getMinutes( )
-                    let endMinute = event.end.getMinutes( ) >= 10 ? event.end.getMinutes( ) : '0'+event.end.getMinutes( )
-                    // div.classList.add('appointment-item');
-                    // div.onclick = event => {
-                    //     console.log(22)
-                    // };
-                    // div.innerText = `de ${event.start.getHours( )}:${starMinute} a ${event.end.getHours( )}:${endMinute}`
-                    console.log(div)
-                    console.log(list)
-                    // list.appendChild( div )
-                    // (event.style = "event-slot")
-                });
-                this.eventSelected = true;
-            }
+            this.eventSelected = this.currentEvent.length != 0;
             this.schedule = {day, month, year};
         },
         getEvents(day, month, year) {
@@ -202,7 +188,7 @@ var app = new Vue({
                     this.getDoctorById( this.selectedDoctor ).meta.appointment &&
                     this.getDoctorById( this.selectedDoctor ).meta.appointment.indexOf( ""+event.ID ) != -1
                 ) {
-                    console.log('etro')
+                    
                     return event;
                 }
             });
@@ -237,7 +223,7 @@ var app = new Vue({
         },
         filterSpecialities(_array, A = false){
             let parents = _array.map( element => {
-                console.log(element)
+                
                 if( element.meta.sub ){
                     return parseInt( element.meta.sub)
                 }

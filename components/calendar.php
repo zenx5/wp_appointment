@@ -136,7 +136,8 @@
   </v-row>
   <v-row>
     <v-col>
-      <v-checkbox :key="'es' + ind" v-for="(item, ind) in currentEvent" :class="item.style" @click="clickEvent(item.id)">
+      <v-subheader>Slots</v-subheader>
+      <v-checkbox :key="'es' + ind" v-for="(item, ind) in currentEvent" v-model="item.timed" :class="item.style" @click="clickEvent(item.id, true)">
         <template v-slot:label>
           De {{item.start | hour}} A {{item.end | hour}}
         </template>
@@ -147,19 +148,17 @@
         <v-subheader>Selection</v-subheader>
         <v-list-item-group>
           <v-list-item v-for="(item, ind) in selects" :key="'selected'+ind">
-            De {{item.start | hour}} A {{item.end | hour}}
+            <v-list-item-content>
+              De {{item.start | hour}} A {{item.end | hour}}
+            </v-list-item-content>
             <v-list-item-action>
-              <v-icon>mdi-information</v-icon>
+              <v-icon @click="clickEvent(item.id, false)">mdi-close</v-icon>
             </v-list-item-action>
           </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-col>
   </v-row>
-  <!-- <v-row>
-    
-        <v-col></v-col>
-    </v-row> -->
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
